@@ -27,44 +27,34 @@ public class DocumentService {
                 .collect(Collectors.toList());
     }
 
-//    public List<DocumentDto> getAllDocuments() {
-//        return documentRepository.findAll().stream()
-//                .map(documentDtoMapper)
-//                .collect(Collectors.toList());
-//    }
-//
-//    public DocumentDto getDocumentById(Long id) {
-//        Document document = documentRepository.findById(id)
-//                .orElseThrow(() -> new RuntimeException("Document not found"));
-//        return documentDtoMapper.apply(document);
-//    }
-//
-//    public DocumentDto createDocument(DocumentDto documentDto) {
-//        Document document = new Document();
-//        document.setDate(documentDto.date());
-//        document.setPatientId(documentDto.patientId());
-//        document.setHospitalId(documentDto.hospitalId());
-//        document.setDoctorId(documentDto.doctorId());
-//        document.setRoom(documentDto.room());
-//        document.setData(documentDto.data());
-//        Document savedDocument = documentRepository.save(document);
-//        return documentDtoMapper.apply(savedDocument);
-//    }
-//
-//    public DocumentDto updateDocument(Long id, DocumentDto documentDto) {
-//        Document document = documentRepository.findById(id)
-//                .orElseThrow(() -> new RuntimeException("Document not found"));
-//        document.setDate(documentDto.date());
-//        document.setPatientId(documentDto.patientId());
-//        document.setHospitalId(documentDto.hospitalId());
-//        document.setDoctorId(documentDto.doctorId());
-//        document.setRoom(documentDto.room());
-//        document.setData(documentDto.data());
-//        Document updatedDocument = documentRepository.save(document);
-//        return documentDtoMapper.apply(updatedDocument);
-//    }
-//
-//    public void deleteDocument (Long id) {
-//        documentRepository.deleteById(id);
-//    }
+    public DocumentDto getDocumentById(Long id) {
+        Document document = documentRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Document not found"));
+        return documentDtoMapper.apply(document);
+    }
+
+    public DocumentDto createDocument(DocumentDto documentDto) {
+        Document document = new Document();
+        document.setDate(documentDto.date());
+        document.setPatientId(documentDto.patientId());
+        document.setHospitalId(documentDto.hospitalId());
+        document.setDoctorId(documentDto.doctorId());
+        document.setRoom(documentDto.room());
+        document.setData(documentDto.data());
+        Document savedDocument = documentRepository.save(document);
+        return documentDtoMapper.apply(savedDocument);
+    }
+
+    public DocumentDto updateDocument(Long id, DocumentDto documentDto) {
+        Document document = documentRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Document not found"));
+        document.setDate(documentDto.date());
+        document.setPatientId(documentDto.patientId());
+        document.setHospitalId(documentDto.hospitalId());
+        document.setDoctorId(documentDto.doctorId());
+        document.setRoom(documentDto.room());
+        document.setData(documentDto.data());
+        Document updatedDocument = documentRepository.save(document);
+        return documentDtoMapper.apply(updatedDocument);
+    }
 }

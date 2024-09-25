@@ -17,5 +17,6 @@ public interface AccountServiceClient {
     @GetMapping("/api/Authentication/Validate")
     ResponseEntity<String> validateToken(@RequestParam("accessToken") String token);
 
-
+    @GetMapping("/api/Authentication/Me")
+    ResponseEntity<AccountDto> getCurrentAccount(@RequestHeader("Authorization") String bearerToken);
 }
