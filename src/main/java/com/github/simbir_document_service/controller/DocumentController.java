@@ -71,7 +71,7 @@ public class DocumentController {
         return ResponseEntity.ok(documents);
     }
 
-    @GetMapping("/{id}") // todo проблемы с логикой
+    @GetMapping("/{id}")
     public ResponseEntity<DocumentDto> getDocumentById(@PathVariable Long id, HttpServletRequest request) {
         // Извлекаем токен из заголовка запроса
         String bearerToken = request.getHeader("Authorization");
@@ -80,8 +80,10 @@ public class DocumentController {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Токен не найден или недействителен.");
         }
 
+        DocumentDto document = documentService.getDocumentById(id);
+
         // Вызываем Feign-клиент для получения данных аккаунта по его ID
-        AccountDto account = accountServiceClient.getAccountById(id, bearerToken).getBody();
+        AccountDto account = accountServiceClient.getAccountById(document.patientId(),bearerToken).getBody();
 
         if (account == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Аккаунт не найден.");
@@ -92,7 +94,6 @@ public class DocumentController {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Доступ запрещен: недостаточно прав.");
         }
 
-        DocumentDto document = documentService.getDocumentById(id);
         return ResponseEntity.ok(document);
     }
 
