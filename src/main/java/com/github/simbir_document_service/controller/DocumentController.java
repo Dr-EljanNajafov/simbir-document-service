@@ -127,11 +127,6 @@ public class DocumentController {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Доступ запрещен: недостаточно прав.");
         }
 
-        // Проверка прав доступа для администраторов, менеджеров и врачей
-        if (!isUserAuthorized("admin") && !isUserAuthorized("manager") && !isUserAuthorized("doctor")) {
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Доступ запрещен: недостаточно прав.");
-        }
-
         // Валидация pacientId, чтобы убедиться, что пользователь имеет роль 'user'
         AccountDto accountDto = accountServiceClient.getAccountById(documentDto.patientId(), bearerToken).getBody();
 
