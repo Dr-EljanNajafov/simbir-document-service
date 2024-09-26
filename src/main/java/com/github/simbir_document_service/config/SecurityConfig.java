@@ -1,6 +1,5 @@
 package com.github.simbir_document_service.config;
 
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
@@ -17,7 +16,6 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableMethodSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
-
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {

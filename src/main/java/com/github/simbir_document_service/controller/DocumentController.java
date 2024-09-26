@@ -1,26 +1,19 @@
 package com.github.simbir_document_service.controller;
 
 import com.github.simbir_document_service.client.AccountServiceClient;
-import com.github.simbir_document_service.client.HospitalServiceClient;
 import com.github.simbir_document_service.config.context.UserContext;
-import com.github.simbir_document_service.document.Document;
 import com.github.simbir_document_service.dto.AccountDto;
 import com.github.simbir_document_service.dto.DocumentDto;
 import com.github.simbir_document_service.dto.Role;
-import com.github.simbir_document_service.repository.DocumentRepository;
 import com.github.simbir_document_service.service.DocumentService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-
-import java.net.URI;
 import java.util.List;
-import java.util.Objects;
 
 @Slf4j
 @RestController
@@ -30,7 +23,6 @@ public class DocumentController {
 
     private final DocumentService documentService;
     private final AccountServiceClient accountServiceClient;
-    private final HospitalServiceClient hospitalServiceClient;
     private final UserContext userContext;
 
     private boolean isUserAuthorized(String role) {

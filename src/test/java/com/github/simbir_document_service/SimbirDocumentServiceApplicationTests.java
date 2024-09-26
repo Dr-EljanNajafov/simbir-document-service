@@ -9,5 +9,4 @@ class SimbirDocumentServiceApplicationTests {
     @Test
     void contextLoads() {
     }
-
 }

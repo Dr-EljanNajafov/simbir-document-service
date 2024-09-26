@@ -1,15 +1,11 @@
 package com.github.simbir_document_service.service;
 
-import com.github.simbir_document_service.client.AccountServiceClient;
-import com.github.simbir_document_service.client.HospitalServiceClient;
 import com.github.simbir_document_service.document.Document;
 import com.github.simbir_document_service.dto.DocumentDto;
 import com.github.simbir_document_service.dto.mapper.DocumentDtoMapper;
 import com.github.simbir_document_service.repository.DocumentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,7 +17,7 @@ public class DocumentService {
     private final DocumentRepository documentRepository;
 
     public List<DocumentDto> getDocumentByPatientId(Long patientId) {
-        List<Document> documents = documentRepository.findByPatientId(patientId); // Assuming you have this method in your repository
+        List<Document> documents = documentRepository.findByPatientId(patientId);
         return documents.stream()
                 .map(documentDtoMapper)
                 .collect(Collectors.toList());

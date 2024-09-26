@@ -3,7 +3,6 @@ package com.github.simbir_document_service.dto.mapper;
 import com.github.simbir_document_service.document.Document;
 import com.github.simbir_document_service.dto.DocumentDto;
 import org.springframework.stereotype.Component;
-
 import java.util.function.Function;
 
 @Component
