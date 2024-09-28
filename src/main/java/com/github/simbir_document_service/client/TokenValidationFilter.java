@@ -60,7 +60,6 @@ public class TokenValidationFilter extends OncePerRequestFilter {
             return;
         }
 
-        log.info("Токен действителен. Продолжаем выполнение запроса.");
         filterChain.doFilter(request, response);
     }
 }

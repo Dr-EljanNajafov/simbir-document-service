@@ -6,6 +6,7 @@ import com.github.simbir_document_service.dto.AccountDto;
 import com.github.simbir_document_service.dto.DocumentDto;
 import com.github.simbir_document_service.dto.Role;
 import com.github.simbir_document_service.service.DocumentService;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -36,7 +37,7 @@ public class DocumentController {
         return ownerUsername.equals(currentUserSub);
     }
 
-    // Endpoint to get history by patient ID
+    @Operation(summary = "Получение истории посещений и назначений аккаунта")
     @GetMapping("/Account/{id}")
     public ResponseEntity<List<DocumentDto>> getHistoryByAccountId(@PathVariable Long id, HttpServletRequest request) {
         // Извлекаем токен из заголовка запроса
@@ -63,6 +64,7 @@ public class DocumentController {
         return ResponseEntity.ok(documents);
     }
 
+    @Operation(summary = "Получение подробной информации о посещении и назначениях")
     @GetMapping("/{id}")
     public ResponseEntity<DocumentDto> getDocumentById(@PathVariable Long id, HttpServletRequest request) {
         // Извлекаем токен из заголовка запроса
@@ -89,6 +91,7 @@ public class DocumentController {
         return ResponseEntity.ok(document);
     }
 
+    @Operation(summary = "Создание истории посещения и назначения")
     @PostMapping
     public ResponseEntity<DocumentDto> createDocument(@RequestBody DocumentDto documentDto,  @RequestHeader("Authorization") String bearerToken) {
 
@@ -109,6 +112,7 @@ public class DocumentController {
         return ResponseEntity.status(201).body(createdDocument);
     }
 
+    @Operation(summary = "Обновление истории посещения и назначения")
     @PutMapping("/{id}")
     public ResponseEntity<DocumentDto> updateDocument(
             @PathVariable Long id,

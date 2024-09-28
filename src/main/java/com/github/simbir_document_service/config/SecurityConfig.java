@@ -22,7 +22,7 @@ public class SecurityConfig {
         log.info("Configuring security filter chain...");
 
         http
-                .csrf(AbstractHttpConfigurer::disable) // Отключаем CSRF через новый API
+                .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth.anyRequest().permitAll());
 
         return http.build();

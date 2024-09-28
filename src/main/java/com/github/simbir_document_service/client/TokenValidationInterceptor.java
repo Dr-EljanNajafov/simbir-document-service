@@ -64,7 +64,6 @@ public class TokenValidationInterceptor implements HandlerInterceptor {
             return false;
         }
 
-        log.info("Token is valid. Proceeding with request.");
         return true;
     }
 }
