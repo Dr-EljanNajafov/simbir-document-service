@@ -1,10 +1,9 @@
 package com.github.simbir_document_service.controller;
 
 import com.github.simbir_document_service.client.AccountServiceClient;
+import com.github.simbir_document_service.client.HospitalServiceClient;
 import com.github.simbir_document_service.config.context.UserContext;
-import com.github.simbir_document_service.dto.AccountDto;
-import com.github.simbir_document_service.dto.DocumentDto;
-import com.github.simbir_document_service.dto.Role;
+import com.github.simbir_document_service.dto.*;
 import com.github.simbir_document_service.service.DocumentService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.servlet.http.HttpServletRequest;
@@ -24,6 +23,7 @@ public class DocumentController {
 
     private final DocumentService documentService;
     private final AccountServiceClient accountServiceClient;
+    private final HospitalServiceClient hospitalServiceClient;
     private final UserContext userContext;
 
     private boolean isUserAuthorized(String role) {
@@ -93,17 +93,27 @@ public class DocumentController {
 
     @Operation(summary = "Создание истории посещения и назначения")
     @PostMapping
-    public ResponseEntity<DocumentDto> createDocument(@RequestBody DocumentDto documentDto,  @RequestHeader("Authorization") String bearerToken) {
+    public ResponseEntity<DocumentDto> createDocument(@RequestBody DocumentDto documentDto) {
 
         // Проверка прав доступа для администраторов, менеджеров и врачей
         if (!isUserAuthorized("admin") && !isUserAuthorized("manager") && !isUserAuthorized("doctor")) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Доступ запрещен: недостаточно прав.");
         }
 
-        // Валидация pacientId, чтобы убедиться, что пользователь имеет роль 'user'
-        AccountDto accountDto = accountServiceClient.getAccountById(documentDto.patientId(), bearerToken).getBody();
+        // Сначала проверяем наличие больницы
+        HospitalDto hospitalDto = hospitalServiceClient.getHospitalById(documentDto.hospitalId(), userContext.getToken()).getBody();
+        if (hospitalDto == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Больница не найдена.");
+        }
 
-        // Проверяем, что аккаунт существует и имеет роль 'user'
+        // Проверка доктора
+        DoctorDto doctorDto = accountServiceClient.getDoctorById(documentDto.doctorId(), userContext.getToken()).getBody();
+        if (doctorDto == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Доктор не найден.");
+        }
+
+        // Валидация pacientId, чтобы убедиться, что пользователь имеет роль 'user'
+        AccountDto accountDto = accountServiceClient.getAccountById(documentDto.patientId(), userContext.getToken()).getBody();
         if (accountDto == null || accountDto.role() != Role.user) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Доступ запрещен: пациент не имеет роли 'user'.");
         }
@@ -116,17 +126,27 @@ public class DocumentController {
     @PutMapping("/{id}")
     public ResponseEntity<DocumentDto> updateDocument(
             @PathVariable Long id,
-            @RequestBody DocumentDto documentDto,
-            @RequestHeader("Authorization") String bearerToken
+            @RequestBody DocumentDto documentDto
     ) {
+        // Проверка прав доступа для администраторов, менеджеров и врачей
         if (!isUserAuthorized("admin") && !isUserAuthorized("manager") && !isUserAuthorized("doctor")) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Доступ запрещен: недостаточно прав.");
         }
 
-        // Валидация pacientId, чтобы убедиться, что пользователь имеет роль 'user'
-        AccountDto accountDto = accountServiceClient.getAccountById(documentDto.patientId(), bearerToken).getBody();
+        // Сначала проверяем наличие больницы
+        HospitalDto hospitalDto = hospitalServiceClient.getHospitalById(documentDto.hospitalId(), userContext.getToken()).getBody();
+        if (hospitalDto == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Больница не найдена.");
+        }
 
-        // Проверяем, что аккаунт существует и имеет роль 'user'
+        // Проверка доктора
+        DoctorDto doctorDto = accountServiceClient.getDoctorById(documentDto.doctorId(), userContext.getToken()).getBody();
+        if (doctorDto == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Доктор не найден.");
+        }
+
+        // Валидация pacientId, чтобы убедиться, что пользователь имеет роль 'user'
+        AccountDto accountDto = accountServiceClient.getAccountById(documentDto.patientId(), userContext.getToken()).getBody();
         if (accountDto == null || accountDto.role() != Role.user) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Доступ запрещен: пациент не имеет роли 'user'.");
         }
