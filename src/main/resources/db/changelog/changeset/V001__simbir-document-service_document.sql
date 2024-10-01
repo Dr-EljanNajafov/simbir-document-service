@@ -6,8 +6,5 @@ CREATE TABLE IF NOT EXISTS document
     hospital_id BIGINT NOT NULL,
     doctor_id   BIGINT NOT NULL,
     room        VARCHAR(255) NOT NULL,
-    data        TEXT,
-    CONSTRAINT fk_patient FOREIGN KEY (patient_id) REFERENCES account (id) ON DELETE CASCADE,
-    CONSTRAINT fk_hospital FOREIGN KEY (hospital_id) REFERENCES hospital (id) ON DELETE CASCADE,
-    CONSTRAINT fk_doctor FOREIGN KEY (doctor_id) REFERENCES doctor (id) ON DELETE CASCADE
+    data        TEXT
 );
