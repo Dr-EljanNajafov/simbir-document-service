@@ -107,7 +107,7 @@ public class DocumentController {
         }
 
         // Проверка доктора
-        DoctorDto doctorDto = accountServiceClient.getDoctorById(documentDto.doctorId(), userContext.getToken()).getBody();
+        AccountDto doctorDto = accountServiceClient.getDoctorById(documentDto.doctorId(), userContext.getToken()).getBody();
         if (doctorDto == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Доктор не найден.");
         }
@@ -140,7 +140,7 @@ public class DocumentController {
         }
 
         // Проверка доктора
-        DoctorDto doctorDto = accountServiceClient.getDoctorById(documentDto.doctorId(), userContext.getToken()).getBody();
+        AccountDto doctorDto = accountServiceClient.getDoctorById(documentDto.doctorId(), userContext.getToken()).getBody();
         if (doctorDto == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Доктор не найден.");
         }
