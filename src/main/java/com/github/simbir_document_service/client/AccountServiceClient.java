@@ -1,7 +1,6 @@
 package com.github.simbir_document_service.client;
 
 import com.github.simbir_document_service.dto.AccountDto;
-import com.github.simbir_document_service.dto.DoctorDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -24,5 +23,5 @@ public interface AccountServiceClient {
     ResponseEntity<AccountDto> getAccountById(@PathVariable("id") Long id, @RequestHeader("Authorization") String bearerToken);
 
     @GetMapping("/api/Doctors/{id}")
-    ResponseEntity<DoctorDto> getDoctorById(@PathVariable("id") Long id, @RequestHeader("Authorization") String bearerToken);
+    ResponseEntity<AccountDto> getDoctorById(@PathVariable("id") Long id, @RequestHeader("Authorization") String bearerToken);
 }
